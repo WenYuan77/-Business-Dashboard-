@@ -38,15 +38,15 @@ export function Sidebar() {
       <div className="p-4 flex items-center justify-between border-b border-gray-700">
         {!sidebarCollapsed && (
           <>
-            <div className="w-10 h-10 bg-white rounded flex items-center justify-center">
-              <span className="text-[#0d1b36] font-bold">G</span>
+            <div className="w-10 h-10 overflow-hidden rounded">
+              <img src="/images/china-flag.png" alt="中国国旗" className="w-full h-full object-cover" />
             </div>
             <span className="ml-2 font-bold">公司名字</span>
           </>
         )}
         {sidebarCollapsed && (
-          <div className="w-10 h-10 bg-white rounded flex items-center justify-center mx-auto">
-            <span className="text-[#0d1b36] font-bold">G</span>
+          <div className="w-10 h-10 overflow-hidden rounded mx-auto">
+            <img src="/images/china-flag.png" alt="中国国旗" className="w-full h-full object-cover" />
           </div>
         )}
         <button

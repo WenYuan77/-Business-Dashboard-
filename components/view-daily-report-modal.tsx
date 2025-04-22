@@ -12,7 +12,6 @@ interface ViewDailyReportModalProps {
 }
 
 export function ViewDailyReportModal({ isOpen, onClose, report }: ViewDailyReportModalProps) {
-  // 当模态窗口打开时，阻止背景滚动
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden"

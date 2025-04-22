@@ -12,7 +12,6 @@ interface AddWarrantyModalProps {
 export function AddWarrantyModal({ isOpen, onClose }: AddWarrantyModalProps) {
   const router = useRouter()
 
-  // 当模态窗口打开时，阻止背景滚动
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden"

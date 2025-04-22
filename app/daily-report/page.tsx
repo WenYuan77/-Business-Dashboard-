@@ -145,7 +145,6 @@ export default function DailyReportPage() {
     endDate: "",
   })
 
-  // 选中行状态
   const [selectedRows, setSelectedRows] = useState<string[]>([])
 
   // 分页状态
@@ -205,7 +204,6 @@ export default function DailyReportPage() {
     }))
   }
 
-  // 处理搜索 - 实际过滤数据
   const handleSearch = () => {
     const filtered = reportData.filter((item) => {
       // 门店筛选
@@ -213,7 +211,6 @@ export default function DailyReportPage() {
         return false
       }
 
-      // 日期范围筛选 - 开始日期
       if (searchParams.startDate) {
         const startDate = new Date(searchParams.startDate)
         const itemDate = new Date(item.date)
@@ -222,7 +219,6 @@ export default function DailyReportPage() {
         }
       }
 
-      // 日期范围筛选 - 结束日期
       if (searchParams.endDate) {
         const endDate = new Date(searchParams.endDate)
         endDate.setHours(23, 59, 59, 999) // 设置为当天结束时间
@@ -288,7 +284,6 @@ export default function DailyReportPage() {
 
   // 处理修改
   const handleEdit = (id?: string) => {
-    // 如果提供了ID，使用该ID；否则使用选中的行
     const reportId = id || (selectedRows.length === 1 ? selectedRows[0] : null)
 
     if (!reportId) {
@@ -590,13 +585,10 @@ export default function DailyReportPage() {
         </div>
       </div>
 
-      {/* 新增日报模态窗口 */}
       <AddDailyReportModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onAdd={handleAddReport} />
 
-      {/* 查看日报模态窗口 */}
       <ViewDailyReportModal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)} report={currentReport} />
 
-      {/* 编辑日报模态窗口 */}
       <EditDailyReportModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}

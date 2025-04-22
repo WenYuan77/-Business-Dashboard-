@@ -30,11 +30,6 @@ export default function Dashboard() {
   const storeRankings = [
     { id: 1, name: "白鹭岛 1 号店", value: "1234.56" },
     { id: 2, name: "白鹭岛 2 号店", value: "1134.56" },
-    { id: 3, name: "白鹭岛 3 号店", value: "1034.56" },
-    { id: 4, name: "白鹭岛 4 号店", value: "934.56" },
-    { id: 5, name: "白鹭岛 5 号店", value: "834.56" },
-    { id: 6, name: "白鹭岛 6 号店", value: "734.56" },
-    { id: 7, name: "白鹭岛 7 号店", value: "634.56" },
   ]
 
   // 计算最大值用于图表高度比例
