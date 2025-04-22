@@ -7,9 +7,10 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { FileUpload } from "@/components/file-upload"
-import { Calendar, Search } from "lucide-react"
+import { Calendar } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { useWarranty, type WarrantyFormData } from "@/contexts/warranty-context"
+import { TopNav } from "@/components/top-nav"
 
 export default function EditWarrantyPage() {
   const router = useRouter()
@@ -115,59 +116,10 @@ export default function EditWarrantyPage() {
   return (
     <div className="flex-1 bg-gray-100">
       {/* 顶部导航 */}
-      <div className="bg-white p-4 flex items-center justify-between border-b">
-        <div className="flex items-center">
-          <button className="mr-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-gray-500"
-            >
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-          <span className="text-gray-500">首页 / 保单管理 / 延保 / 修改延保</span>
-        </div>
-        <div className="flex items-center">
-          <button className="mr-2">
-            <Search className="text-gray-500" />
-          </button>
-          <button>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-gray-500"
-            >
-              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
-              <rect x="9" y="9" width="6" height="6"></rect>
-              <line x1="9" y1="1" x2="9" y2="4"></line>
-              <line x1="15" y1="1" x2="15" y2="4"></line>
-              <line x1="9" y1="20" x2="9" y2="23"></line>
-              <line x1="15" y1="20" x2="15" y2="23"></line>
-              <line x1="20" y1="9" x2="23" y2="9"></line>
-              <line x1="20" y1="14" x2="23" y2="14"></line>
-              <line x1="1" y1="9" x2="4" y2="9"></line>
-              <line x1="1" y1="14" x2="4" y2="14"></line>
-            </svg>
-          </button>
-        </div>
-      </div>
+      <TopNav
+        breadcrumbs={["首页", "保单管理", "延保", "修改延保"]}
+        paths={["/dashboard", "/warranty", "/warranty", ""]}
+      />
 
       {/* 页面标签 */}
       <div className="bg-white border-b">

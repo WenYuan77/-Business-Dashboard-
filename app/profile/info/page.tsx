@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { X, Camera, Edit, Check } from "lucide-react"
+import { useState, useEffect } from "react"
+import { X, Edit, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -9,30 +9,23 @@ import { Textarea } from "@/components/ui/textarea"
 import Link from "next/link"
 import { useToast } from "@/hooks/use-toast"
 import { TopNav } from "@/components/top-nav"
+import { AvatarUpload } from "@/components/avatar-upload"
+import { useUser } from "@/contexts/user-context"
 
 export default function PersonalInfoPage() {
   const { toast } = useToast()
-
-  const [userInfo, setUserInfo] = useState({
-    avatar: "",
-    name: "",
-    gender: "",
-    phone: "",
-    email: "",
-    department: "",
-    position: "",
-    employeeId: "",
-    joinDate: "",
-    address: "",
-    bio: "",
-  })
+  const { userInfo, updateUserInfo } = useUser()
 
   const [isEditing, setIsEditing] = useState(false)
   const [editedInfo, setEditedInfo] = useState({ ...userInfo })
 
+  useEffect(() => {
+    setEditedInfo({ ...userInfo })
+  }, [userInfo])
+
   const handleEditToggle = () => {
     if (isEditing) {
-      setUserInfo({ ...editedInfo })
+      updateUserInfo(editedInfo)
       toast({
         title: "保存成功",
         description: "个人信息已更新",
@@ -47,13 +40,6 @@ export default function PersonalInfoPage() {
       ...prev,
       [field]: value,
     }))
-  }
-
-  const handleAvatarUpload = () => {
-    toast({
-      title: "功能提示",
-      description: "头像上传功能正在开发中",
-    })
   }
 
   return (
@@ -94,18 +80,11 @@ export default function PersonalInfoPage() {
             <div className="flex flex-col items-center">
               <div className="relative">
                 <img
-                  src={userInfo.avatar || "/placeholder.svg"}
+                  src={userInfo.avatar || "/placeholder.svg?height=128&width=128&query=user"}
                   alt="用户头像"
                   className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
                 />
-                {isEditing && (
-                  <button
-                    onClick={handleAvatarUpload}
-                    className="absolute bottom-0 right-0 bg-blue-500 text-white p-2 rounded-full"
-                  >
-                    <Camera className="h-4 w-4" />
-                  </button>
-                )}
+                {isEditing && <AvatarUpload />}
               </div>
               <h3 className="mt-4 text-lg font-medium">{userInfo.name}</h3>
               <p className="text-gray-500">{userInfo.position}</p>
@@ -179,7 +158,6 @@ export default function PersonalInfoPage() {
                       value={editedInfo.department}
                       onChange={(e) => handleInputChange("department", e.target.value)}
                       className="h-9"
-                      readOnly
                     />
                   ) : (
                     <div className="p-2 bg-gray-50 rounded">{userInfo.department}</div>
@@ -193,7 +171,6 @@ export default function PersonalInfoPage() {
                       value={editedInfo.position}
                       onChange={(e) => handleInputChange("position", e.target.value)}
                       className="h-9"
-                      readOnly
                     />
                   ) : (
                     <div className="p-2 bg-gray-50 rounded">{userInfo.position}</div>
@@ -202,12 +179,29 @@ export default function PersonalInfoPage() {
 
                 <div>
                   <div className="text-sm text-gray-500 mb-1">员工编号</div>
-                  <div className="p-2 bg-gray-50 rounded">{userInfo.employeeId}</div>
+                  {isEditing ? (
+                    <Input
+                      value={editedInfo.employeeId}
+                      onChange={(e) => handleInputChange("employeeId", e.target.value)}
+                      className="h-9"
+                    />
+                  ) : (
+                    <div className="p-2 bg-gray-50 rounded">{userInfo.employeeId}</div>
+                  )}
                 </div>
 
                 <div>
                   <div className="text-sm text-gray-500 mb-1">入职日期</div>
-                  <div className="p-2 bg-gray-50 rounded">{userInfo.joinDate}</div>
+                  {isEditing ? (
+                    <Input
+                      type="date"
+                      value={editedInfo.joinDate}
+                      onChange={(e) => handleInputChange("joinDate", e.target.value)}
+                      className="h-9"
+                    />
+                  ) : (
+                    <div className="p-2 bg-gray-50 rounded">{userInfo.joinDate}</div>
+                  )}
                 </div>
 
                 <div className="md:col-span-2">

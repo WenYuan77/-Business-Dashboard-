@@ -4,6 +4,7 @@ import Link from "next/link"
 import { LogOut, User } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
+import { useUser } from "@/contexts/user-context"
 
 interface TopNavProps {
   breadcrumbs: string[]
@@ -12,12 +13,10 @@ interface TopNavProps {
 
 export function TopNav({ breadcrumbs, paths }: TopNavProps) {
   const router = useRouter()
+  const { userInfo } = useUser()
 
   const handleLogout = () => {
-    // 实际应用中这里会调用登出API
     alert("退出登录成功")
-    // 登出后重定向到登录页
-    // router.push("/login")
   }
 
   return (
@@ -57,12 +56,19 @@ export function TopNav({ breadcrumbs, paths }: TopNavProps) {
         </div>
       </div>
 
-      {/* 用户头像和下拉菜单 */}
       <div className="flex items-center">
         <DropdownMenu>
           <DropdownMenuTrigger className="focus:outline-none">
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white cursor-pointer">
-              <User className="h-5 w-5" />
+            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white cursor-pointer overflow-hidden">
+              {userInfo.avatar ? (
+                <img
+                  src={userInfo.avatar || "/placeholder.svg"}
+                  alt="User Avatar"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <User className="h-5 w-5" />
+              )}
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">

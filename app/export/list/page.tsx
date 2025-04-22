@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, RotateCcw, ChevronDown, X, User, LogOut } from "lucide-react"
+import { Search, RotateCcw, ChevronDown, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -9,9 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { TopNav } from "@/components/top-nav"
 
-// 模拟导出记录数据
 const initialExportData = [
   {
     id: "EXP20250421001",
@@ -38,7 +37,6 @@ const initialExportData = [
 export default function ExportListPage() {
   const router = useRouter()
 
-  // 搜索条件状态
   const [searchParams, setSearchParams] = useState({
     batchId: "",
     businessType: "",
@@ -50,7 +48,6 @@ export default function ExportListPage() {
 
   // 导出数据状态
   const [exportData, setExportData] = useState(initialExportData)
-  // 过滤后的数据
   const [filteredData, setFilteredData] = useState(initialExportData)
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -65,9 +62,9 @@ export default function ExportListPage() {
     }))
   }
 
-  // 处理搜索
   const handleSearch = () => {
     const filtered = exportData.filter((item) => {
+      // 批次ID筛选
       if (searchParams.batchId && !item.batchId.toLowerCase().includes(searchParams.batchId.toLowerCase())) {
         return false
       }
@@ -143,75 +140,19 @@ export default function ExportListPage() {
   // 当前页数据
   const currentPageData = getCurrentPageData()
 
-  // 处理退出登录
-  const handleLogout = () => {
-    alert("退出登录")
-  }
-
   return (
     <div className="flex-1 bg-white">
       {/* 顶部导航 */}
-      <div className="border-b">
-        <div className="flex items-center p-4">
-          <button className="mr-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-gray-500"
-            >
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-          <div className="flex items-center text-gray-500 text-sm">
-            <Link href="/dashboard" className="hover:text-blue-500">
-              首页
-            </Link>
-            <span className="mx-1">/</span>
-            <Link href="/export" className="hover:text-blue-500">
-              文件导出
-            </Link>
-            <span className="mx-1">/</span>
-            <span>导出列表</span>
-          </div>
-          <div className="ml-auto">
-            <DropdownMenu>
-              <DropdownMenuTrigger className="focus:outline-none">
-                <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white cursor-pointer">
-                  <User className="h-5 w-5" />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => router.push("/profile/info")} className="cursor-pointer">
-                  <User className="mr-2 h-4 w-4" />
-                  <span>个人资料</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-500">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>退出登录</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
+      <TopNav breadcrumbs={["首页", "文件导出", "导出列表"]} paths={["/dashboard", "/export", "/export/list"]} />
 
-        {/* 页面标签 */}
-        <div className="flex border-b">
-          <Link href="/dashboard" className="py-3 px-4 text-gray-500 hover:text-gray-700">
-            首页
-          </Link>
-          <div className="py-3 px-4 text-blue-500 border-b-2 border-blue-500 font-medium flex items-center">
-            导出列表
-            <X className="ml-1 h-4 w-4 text-gray-400" />
-          </div>
+      {/* 页面标签 */}
+      <div className="flex border-b">
+        <Link href="/dashboard" className="py-3 px-4 text-gray-500 hover:text-gray-700">
+          首页
+        </Link>
+        <div className="py-3 px-4 text-blue-500 border-b-2 border-blue-500 font-medium flex items-center">
+          导出列表
+          <X className="ml-1 h-4 w-4 text-gray-400" />
         </div>
       </div>
 
