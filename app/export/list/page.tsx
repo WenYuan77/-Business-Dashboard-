@@ -31,36 +31,7 @@ const initialExportData = [
     creator: "乔亚嘉",
     createdAt: "2025-04-20 15:22:18",
   },
-  {
-    id: "EXP20250419003",
-    batchId: "B20250419003",
-    businessType: "延保",
-    fileName: "延保数据_2025-04-19.csv",
-    fileSize: "0.8MB",
-    status: "完成",
-    creator: "王静",
-    createdAt: "2025-04-19 09:15:33",
-  },
-  {
-    id: "EXP20250418004",
-    batchId: "B20250418004",
-    businessType: "保险",
-    fileName: "保险数据_2025-04-18.csv",
-    fileSize: "1.7MB",
-    status: "失败",
-    creator: "乔亚嘉",
-    createdAt: "2025-04-18 14:05:27",
-  },
-  {
-    id: "EXP20250417005",
-    batchId: "B20250417005",
-    businessType: "延保",
-    fileName: "延保数据_2025-04-17.csv",
-    fileSize: "3.1MB",
-    status: "处理中",
-    creator: "王静",
-    createdAt: "2025-04-17 11:42:19",
-  },
+
 ]
 
 export default function ExportListPage() {
