@@ -63,70 +63,7 @@ const initialReportData: DailyReportData[] = [
     monthSummary: "本月共完成保单15份，总保费金额98,600元，较上月增长12%。新增客户8位，客户满意度调查结果良好。",
     nextMonthPlan: "1. 提高保单转化率，目标达到40%\n2. 加强团队协作，提高客户服务质量\n3. 学习新产品知识，提升专业能力",
   },
-  {
-    id: "63315",
-    name: "王静",
-    store: "甘肃兰州神迈领克",
-    date: "2025-04-20",
-    status: "正常",
-    createdAt: "2025-04-20 02:08:30",
-    updatedAt: "2025-04-20 02:08:30",
-    morningWork: "1. 参加早会\n2. 整理客户资料\n3. 接待预约客户",
-    morningResult: "1. 完成10位客户资料更新\n2. 接待2位预约客户，介绍车型及保险方案",
-    morningIssue: "一位客户对保险条款有异议",
-    morningSolution: "详细解释保险条款，并提供了案例说明",
-    morningRemark1: "客户对我们的服务态度表示满意",
-    morningRemark2: "需要更新一些宣传材料",
-    daySummary: "今日接待了两位预约客户，成功签约一位。另外完成了客户资料的整理和更新工作。",
-    policyCount: "1",
-    policyAmount: "7200",
-    customerCount: "2",
-    callbackCount: "3",
-    newCustomerCount: "0",
-    conversionRate: "50",
-    tomorrowPlan: "1. 继续跟进未成交客户\n2. 准备月度总结报告\n3. 更新宣传材料",
-    monday: "客户回访，资料整理",
-    tuesday: "新客户接待，保单签约",
-    wednesday: "产品培训，客户预约",
-    thursday: "外出拜访客户，保单跟进",
-    friday: "团队会议，周报准备",
-    saturday: "今日工作",
-    sunday: "休息",
-    monthSummary: "本月工作进展顺利，达成销售目标85%",
-    nextMonthPlan: "加强客户回访，提高转化率",
-  },
-  {
-    id: "63131",
-    name: "乔亚嘉",
-    store: "甘肃兰州神迈领克",
-    date: "2025-04-19",
-    status: "正常",
-    createdAt: "2025-04-19 02:21:22",
-    updatedAt: "2025-04-19 19:13:27",
-    morningWork: "1. 电话回访老客户\n2. 整理保单资料\n3. 学习新产品知识",
-    morningResult: "1. 完成8位客户回访\n2. 整理归档15份保单\n3. 完成新产品培训测试",
-    morningIssue: "部分客户联系方式已变更",
-    morningSolution: "通过其他渠道更新了客户联系方式",
-    morningRemark1: "客户对我们的售后服务评价良好",
-    morningRemark2: "需要加强新产品知识培训",
-    daySummary: "今日主要进行了客户回访和资料整理工作，同时完成了新产品知识的学习和测试。",
-    policyCount: "0",
-    policyAmount: "0",
-    customerCount: "0",
-    callbackCount: "8",
-    newCustomerCount: "0",
-    conversionRate: "0",
-    tomorrowPlan: "1. 接待预约客户\n2. 准备团队会议材料\n3. 继续学习新产品知识",
-    monday: "客户回访，资料整理",
-    tuesday: "新客户接待，保单签约",
-    wednesday: "产品培训，客户预约",
-    thursday: "外出拜访客户，保单跟进",
-    friday: "今日工作",
-    saturday: "周末值班",
-    sunday: "休息",
-    monthSummary: "本月客户满意度调查结果良好，需要加强新客户开发",
-    nextMonthPlan: "增加外出拜访客户频次，拓展新客户来源",
-  },
+
 ]
 
 export default function DailyReportPage() {
@@ -145,6 +82,7 @@ export default function DailyReportPage() {
     endDate: "",
   })
 
+  // 选中行状态
   const [selectedRows, setSelectedRows] = useState<string[]>([])
 
   // 分页状态
@@ -204,6 +142,7 @@ export default function DailyReportPage() {
     }))
   }
 
+  // 处理搜索 - 实际过滤数据
   const handleSearch = () => {
     const filtered = reportData.filter((item) => {
       // 门店筛选
@@ -211,6 +150,7 @@ export default function DailyReportPage() {
         return false
       }
 
+      // 日期范围筛选 - 开始日期
       if (searchParams.startDate) {
         const startDate = new Date(searchParams.startDate)
         const itemDate = new Date(item.date)
@@ -219,6 +159,7 @@ export default function DailyReportPage() {
         }
       }
 
+      // 日期范围筛选 - 结束日期
       if (searchParams.endDate) {
         const endDate = new Date(searchParams.endDate)
         endDate.setHours(23, 59, 59, 999) // 设置为当天结束时间
@@ -284,6 +225,7 @@ export default function DailyReportPage() {
 
   // 处理修改
   const handleEdit = (id?: string) => {
+    // 如果提供了ID，使用该ID；否则使用选中的行
     const reportId = id || (selectedRows.length === 1 ? selectedRows[0] : null)
 
     if (!reportId) {
@@ -318,30 +260,6 @@ export default function DailyReportPage() {
     })
   }
 
-  // 处理删除
-  const handleDelete = () => {
-    if (selectedRows.length === 0) {
-      toast({
-        title: "操作提示",
-        description: "请至少选择一条记录进行删除",
-        variant: "destructive",
-      })
-      return
-    }
-
-    // 实际删除选中的记录
-    const updatedReports = reportData.filter((report) => !selectedRows.includes(report.id))
-    setReportData(updatedReports)
-    setFilteredData(updatedReports)
-    setSelectedRows([])
-
-    toast({
-      title: "删除成功",
-      description: `已成功删除 ${selectedRows.length} 条记录`,
-      variant: "success",
-    })
-  }
-
   // 处理页码输入变化
   const handlePageInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPageInputValue(e.target.value)
@@ -363,6 +281,138 @@ export default function DailyReportPage() {
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page)
       setPageInputValue(page.toString())
+    }
+  }
+
+  // 处理复制
+  const handleCopy = (id: string) => {
+    const report = reportData.find((r) => r.id === id)
+    if (!report) {
+      toast({
+        title: "复制失败",
+        description: "未找到日报数据",
+        variant: "destructive",
+      })
+      return
+    }
+
+    // 格式化日报内容
+    const formattedContent = `姓名：${report.name}
+时间：${report.date}
+门店：${report.store}
+———【今日业绩】———
+【售前】
+交车：${report.policyCount || "0"}
+谈单：${report.customerCount || "0"}
+成交：${report.newCustomerCount || "0"}
+售前未洽谈原因：无
+售前未成交原因：${report.morningIssue || "无"}
+【售后】
+进厂：${report.callbackCount || "0"}
+可谈：0
+谈单：0
+成交：0
+售后未洽谈原因：无
+售后未成交原因：-
+———【今日业绩小结】———
+今日谈单：${report.customerCount || "0"}
+今日成交：${report.newCustomerCount || "0"}
+今日成交金额：${report.policyAmount || "0"}
+比亚迪今日车小安系统录单单量：0
+比亚迪本月车小安系统累计录单单量：0
+今日退单单量：
+今日退单是售前成交或售后成交：
+今日退单车主姓名：
+退单车主成交日期：
+退单是否录入车小安：
+今日退单金额：
+退单原因：
+今日特殊情况报备：
+———【本月业绩】———
+【售前】
+目标：8
+累计成交：4
+累计交车：19
+累计触客：13
+触客率：68.42%
+成交率：30.77%
+渗透率：21.05%
+达成率：50.00%
+【售后】
+目标：2
+累计成交：1
+累计进厂：192
+累计可谈：27
+累计谈单：17
+可谈率：14.06%
+触客率：62.96%
+成交率：5.88%
+-----【本月汇总】-----
+本月成交：5
+本月渗透率：26.32%
+———【明日计划】———
+明日交车：0
+${report.tomorrowPlan || ""}`
+
+    // 复制到剪贴板
+    navigator.clipboard
+      .writeText(formattedContent)
+      .then(() => {
+        toast({
+          title: "复制成功",
+          description: "日报内容已复制到剪贴板",
+          variant: "success",
+        })
+      })
+      .catch((error) => {
+        console.error("复制失败:", error)
+        toast({
+          title: "复制失败",
+          description: "无法复制到剪贴板",
+          variant: "destructive",
+        })
+      })
+  }
+
+  // 处理删除单条记录
+  const handleDeleteSingle = (id: string) => {
+    if (confirm("确定要删除这条日报吗？此操作不可恢复。")) {
+      const updatedReports = reportData.filter((report) => report.id !== id)
+      setReportData(updatedReports)
+      setFilteredData(updatedReports)
+      setSelectedRows(selectedRows.filter((rowId) => rowId !== id))
+
+      toast({
+        title: "删除成功",
+        description: "日报已成功删除",
+        variant: "success",
+      })
+    }
+  }
+
+  // 处理删除
+  const handleDelete = () => {
+    if (selectedRows.length === 0) {
+      toast({
+        title: "操作提示",
+        description: "请至少选择一条记录进行删除",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (confirm(`确定要删除选中的 ${selectedRows.length} 条日报吗？此操作不可恢复。`)) {
+      // 实际删除选中的记录
+      const updatedReports = reportData.filter((report) => !selectedRows.includes(report.id))
+      setReportData(updatedReports)
+      setFilteredData(updatedReports)
+      setSelectedRows([])
+
+      toast({
+        title: "删除成功",
+        description: `已成功删除 ${selectedRows.length} 条记录`,
+        variant: "success",
+      })
     }
   }
 
@@ -498,7 +548,7 @@ export default function DailyReportPage() {
                     <TableCell>{row.updatedAt}</TableCell>
                     <TableCell>
                       <div className="flex space-x-2 text-blue-500">
-                        <button className="flex items-center text-xs">
+                        <button className="flex items-center text-xs" onClick={() => handleCopy(row.id)}>
                           <Copy className="h-3 w-3 mr-1" />
                           复制
                         </button>
@@ -510,7 +560,7 @@ export default function DailyReportPage() {
                           <FileEdit className="h-3 w-3 mr-1" />
                           修改
                         </button>
-                        <button className="flex items-center text-xs">
+                        <button className="flex items-center text-xs" onClick={() => handleDeleteSingle(row.id)}>
                           <FileX className="h-3 w-3 mr-1" />
                           删除
                         </button>
@@ -587,8 +637,10 @@ export default function DailyReportPage() {
 
       <AddDailyReportModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onAdd={handleAddReport} />
 
+      {/* 查看日报模态窗口 */}
       <ViewDailyReportModal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)} report={currentReport} />
 
+      {/* 编辑日报模态窗口 */}
       <EditDailyReportModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}

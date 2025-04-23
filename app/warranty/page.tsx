@@ -11,12 +11,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useRouter } from "next/navigation"
 import { useWarranty } from "@/contexts/warranty-context"
 import { TopNav } from "@/components/top-nav"
-
-// 导入导出工具函数
 import { exportWarrantyData } from "@/utils/export-utils"
-
-// 导入useToast钩子
 import { useToast } from "@/hooks/use-toast"
+import { WarrantyDetailDialog } from "@/components/warranty-detail-dialog"
 
 // 定义搜索条件接口
 interface SearchCriteria {
@@ -37,13 +34,14 @@ export default function WarrantyPage() {
   const router = useRouter()
   const { warranties } = useWarranty()
 
-  // 在组件内部添加toast
   const { toast } = useToast()
 
-  // 选中行状态
+  // 详情对话框状态
+  const [isDetailOpen, setIsDetailOpen] = useState(false)
+  const [selectedWarrantyId, setSelectedWarrantyId] = useState<string | null>(null)
+
   const [selectedRows, setSelectedRows] = useState<string[]>([])
 
-  // 搜索条件状态
   const [searchCriteria, setSearchCriteria] = useState<SearchCriteria>({
     policyNumber: "",
     vehicleType: "",
@@ -98,10 +96,8 @@ export default function WarrantyPage() {
     }))
   }
 
-  // 执行搜索
   const handleSearch = () => {
     const filtered = warranties.filter((item) => {
-      // 保单号筛选
       if (searchCriteria.policyNumber && !item.id.toLowerCase().includes(searchCriteria.policyNumber.toLowerCase())) {
         return false
       }
@@ -111,7 +107,6 @@ export default function WarrantyPage() {
         return false
       }
 
-      // 车主联系电话筛选
       if (searchCriteria.ownerPhone && !item.phone.includes(searchCriteria.ownerPhone)) {
         return false
       }
@@ -214,6 +209,7 @@ export default function WarrantyPage() {
     return filteredData.slice(startIndex, endIndex)
   }
 
+  // 计算总页数
   useEffect(() => {
     setTotalPages(Math.max(1, Math.ceil(filteredData.length / itemsPerPage)))
     if (currentPage > Math.ceil(filteredData.length / itemsPerPage) && filteredData.length > 0) {
@@ -229,7 +225,6 @@ export default function WarrantyPage() {
     router.push("/warranty/add")
   }
 
-  // 处理编辑按钮点击
   const handleEditClick = () => {
     if (selectedRows.length === 1) {
       router.push(`/warranty/edit/${selectedRows[0]}`)
@@ -240,6 +235,11 @@ export default function WarrantyPage() {
 
   const handleRowEditClick = (id: string) => {
     router.push(`/warranty/edit/${id}`)
+  }
+
+  // 处理查看详情
+  const handleViewDetail = (id: string) => {
+    router.push(`/warranty/detail/${id}`)
   }
 
   // 处理导出按钮点击
@@ -500,7 +500,7 @@ export default function WarrantyPage() {
                   <TableCell>{row.count}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2 text-blue-500">
-                      <button className="flex items-center text-xs">
+                      <button className="flex items-center text-xs" onClick={() => handleViewDetail(row.id)}>
                         <Info className="h-3 w-3 mr-1" />
                         详情
                       </button>
@@ -562,6 +562,12 @@ export default function WarrantyPage() {
           </div>
         </div>
       </div>
+      {/* 详情对话框 */}
+      <WarrantyDetailDialog
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        warrantyId={selectedWarrantyId}
+      />
     </div>
   )
 }

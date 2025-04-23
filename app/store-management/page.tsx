@@ -42,32 +42,6 @@ const initialStoreData: StoreData[] = [
     status: "正常",
     createdAt: "2025-03-25 18:43:57",
   },
-  {
-    id: "2",
-    code: "10000268",
-    name: "甘肃兰州神迈沃尔沃",
-    product: "保险",
-    brand: "沃尔沃",
-    vehicleType: "燃油车",
-    salesPerson: "甘肃兰州神迈沃尔沃",
-    storePerson: "甘肃兰州神迈沃尔沃",
-    recorder: "张三",
-    status: "正常",
-    createdAt: "2025-03-24 14:22:31",
-  },
-  {
-    id: "3",
-    code: "10000269",
-    name: "甘肃兰州神迈吉利",
-    product: "延保",
-    brand: "吉利",
-    vehicleType: "混合动力",
-    salesPerson: "甘肃兰州神迈吉利",
-    storePerson: "甘肃兰州神迈吉利",
-    recorder: "李四",
-    status: "停用",
-    createdAt: "2025-03-23 09:15:42",
-  },
 ]
 
 export default function StoreManagementPage() {
@@ -457,9 +431,7 @@ export default function StoreManagementPage() {
                     <TableCell>{row.status}</TableCell>
                     <TableCell>{row.createdAt}</TableCell>
                     <TableCell>
-                      <div className="flex space-x-2 text-blue-500">
-                        <button className="text-xs">编辑</button>
-                      </div>
+                      <div className="flex space-x-2 text-blue-500"></div>
                     </TableCell>
                   </TableRow>
                 ))
